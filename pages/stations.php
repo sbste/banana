@@ -99,9 +99,25 @@ require_once dirname(__DIR__) . '/includes/header.php';
                         <div class="ports-grid">
                             <?php foreach ($ports as $port): ?>
                                 <div class="port-item">
-                                    <div class="port-status <?= $port['state'] ?? '' ?>">
+                                    <div class="port-status <?= strtolower($port['state'] ?? '') ?>">
                                         <span class="status-dot"></span>
-                                        Port <?= $port['port_id'] ?? '' ?>: <?= ucfirst($port['state'] ?? '') ?>
+                                        Port <?= $port['port_id'] ?? '' ?>: 
+                                        <?php
+                                            $state = strtolower($port['state'] ?? '');
+                                            switch($state) {
+                                                case 'available':
+                                                    echo 'Available';
+                                                    break;
+                                                case 'unavailable':
+                                                    echo 'Unavailable';
+                                                    break;
+                                                case 'reserved':
+                                                    echo 'Reserved';
+                                                    break;
+                                                default:
+                                                    echo ucfirst($state);
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -133,7 +149,6 @@ require_once dirname(__DIR__) . '/includes/header.php';
 </div>
 
 <style>
-    /* Your CSS styles here */
     .page-header {
         margin-bottom: var(--space-6);
     }
@@ -234,7 +249,7 @@ require_once dirname(__DIR__) . '/includes/header.php';
         align-items: center;
         gap: var(--space-2);
         font-size: 0.875rem;
-        padding: var(--space-1) var(--space-2);
+        padding: var(--space-2) var(--space-3);
         border-radius: var(--radius-sm);
         background-color: var(--white);
     }
